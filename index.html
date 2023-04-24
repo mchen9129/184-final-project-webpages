@@ -1,0 +1,23 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h1 align="middle">CS184 Spring 2023: Final Project Webpage</h1>
+		<h2 align="middle">Tattoo Art Renderer</h2>
+		<h2 align="middle">Team Members: Michelle Chen, Jojo Chen, Isabelle Liu, Nicholas Cheng</h2>
+		<p>In this project, we explored non-photorealistic rendering to create a tool for tattoo artists to easily generate designs in different tattoo styles. By altering how light is rendered in a typical photorealistic manner we have learned in class, we created more expressive and artistic images in a sketch, stick & poke, chrome, and american traditional tattoo styles.</p>
+		<a href="/proposal/index.html">Project Proposal</a>
+		<br><br>
+		<a href="/milestone/index.html">Project Milestone</a>
+	</body>
+	<script>
+		var links = document.body.getElementsByTagName("a")
+		var a = window.location.href.indexOf(".io")
+		var repo_name = window.location.href.substring(a+3)
+		for(var i = 0; i < links.length; i++){
+			var link = links[i]
+			var actual_name = link.href.substring(link.href.indexOf(".io")+4)
+			link.href = repo_name + actual_name
+		}
+	</script>
+</html>
