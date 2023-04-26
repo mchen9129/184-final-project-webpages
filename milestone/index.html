@@ -8,12 +8,16 @@
         width: 1000px;
         margin: auto;
         text-align: left;
-        font-weight: 300;
-        font-family: 'Open Sans', sans-serif;
+        line-height: 1.35;
+        font-weight: 400;
+        font-family: 'Lato', sans-serif;
         color: #121212;
     }
     h1, h2, h3, h4 {
-        font-family: 'Source Sans Pro', sans-serif;
+        line-height: 2.0;
+        font-weight: 600;
+        font-stretch: wider;
+        font-family: 'Open Sans', sans-serif;
     }
     kbd {
         color: #121212;
@@ -47,7 +51,10 @@
       So far, we have been able to generate outlines on the 2D image files we render from our 3D mesh scenes. Our method for doing so is very finicky---we modified some of the pdf values from our Project 3 pathtracer---but it's a start for achieving the results we're hoping for. Outlines on images are a key component of 3 of the tattoo styles we want to support so this has been pretty exciting. We are looking into other methods for generating outlines: edge detection (Sobel Edge Detection Filter) with custom GLSL shaders and z-buffer depth maps to determine when a line should be drawn.
     </p>
     <p>
-    We have been able to render images in black and white which was one of our initial goals for both the sketch and stick & poke styles. Although we weren't able to produce a working version of the sketch technique yet, we were able to implement a semi-working version of stick & poke. More specifically, we altered the <code>PathTracer::raytrace_pixel()</code> function. After generating the average value of the samples taken, we took the average of the rgb values (<code>(r+g+b)/3</code>). This generates a grayscale equivalent using the average method described in the link below. If we set each of <code>r</code>, <code>g</code>, and <code>b</code> to this average value, we get a grayscale equivalent of our original color (<code>rgb(avg_val, avg_val, avg_val)</code>). 
+    We have been able to render images in black and white which was one of our initial goals for both the sketch and stick & poke styles. Although we weren't able to produce a working version of the sketch technique yet, we've been looking into technniques to recreate pen strokes and hatching using 2D spatial subdivision.
+    </p>
+    <p>
+      We were able to implement a semi-working version of stick & poke. More specifically, we altered the <code>PathTracer::raytrace_pixel()</code> function. After generating the average value of the samples taken, we took the average of the rgb values (<code>(r+g+b)/3</code>). This generates a grayscale equivalent using the average method described in the link below. If we set each of <code>r</code>, <code>g</code>, and <code>b</code> to this average value, we get a grayscale equivalent of our original color (<code>rgb(avg_val, avg_val, avg_val)</code>). 
       <a href="https://www.baeldung.com/cs/convert-rgb-to-grayscale">Average method description</a>
     </p>
       <p>
@@ -56,7 +63,6 @@
      <p>
       During the process, we experimented with a couple of other ways to achieve this effect that failed. We first tried to generalize each tile to one value and randomly color in pixels according to the corresponding probability in the <code>RaytracedRenderer::raytrace_tile()</code> function. However, the tiles were too large for the images to be legible since a lot of the details were abstracted away. We also tried to make these tiles smaller, but discovered that calculating probabilities based on each pixel produced the most legible results. We also tried to reveal more white parts by eliminating midtones and just making them white, but found that this created unpredictable results depending on the lighting of the original image. Adding an offset to our average worked out a lot better. 
      </p>
-     <br>
       <p>
         Below are two examples of what our current rendering looks like. 
       </p>
@@ -75,8 +81,18 @@
           </table>
       </div>
       <p>
-        Chrome and New American are still works in progress. For our chrome technique, we are working on modifying our metallic shaders from Project 3 to take onn the exaggerated shading that the style uses and incorporating outlines. 
+        Chrome and New American are still works in progress. For our chrome technique, we are working on modifying our metallic shaders from Project 3 to take onn the exaggerated shading that the style uses and incorporating outlines. Here's what we currently have with a basic metallic shader and outline.
       </p>
+      <div align="middle">
+        <table style="width:100%">
+          <tr align="center">
+            <td>
+              <img src="images/bunny-chrome.png" alt=""align="middle" width="400px"/>
+              <figcaption>CBbunny.dae with metallic shading and outline</figcaption>
+            </td>
+          </tr>
+        </table>
+    </div>
       <p>
         For New American, we are trying to recreate the simplistic color gradient style using euclidean distance to approximate the colors in our scene according to a bolder, reduced color palette.
       </p>
@@ -85,14 +101,16 @@
           We are not adjusting our project timeline.
         </p>
 		
-		<h2 align="middle">Milestone Video</h3>
-    <video width="320" height="240" controls>
-      <source src="" type=video/mp4>
-    </video>
+		<h2 align="middle">Milestone Video</h2>
+    <center>
+      <video width="480" height="320" controls>
+        <source src="images/184-Checkpoint-Video.mp4" type=video/mp4>
+      </video>
+    </center>
 
 		<h2 align="middle">Milestone Slides</h2>
-        <p>
-			Description
-		</p>
-</body>
+    <center>
+      <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQMuWy6gqEN_rkxdF657K6ooOgDbgn9sFm_Tt-JYhmCVwl3TiI3sL5nwlISdmxLwZ2WvRvQKVXsjKCK/embed?start=false&loop=false&delayms=3000" frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+    </center>
+  </body>
 </html>
